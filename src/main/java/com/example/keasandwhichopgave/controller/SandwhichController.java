@@ -5,10 +5,7 @@ import com.example.keasandwhichopgave.model.*;
 import com.example.keasandwhichopgave.service.SandwhichService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,6 +37,19 @@ public class SandwhichController {
     public String newOrder(@ModelAttribute SandwhichOrder sandwhichOrder){
         sandwhichService.newOrder(sandwhichOrder);
         return "redirect:/allorders";
+    }
+
+    @GetMapping("/order/edit/{id}")
+    public String editOrder(@PathVariable UUID id, Model model){
+        SandwhichOrder sandwhichOrder = sandwhichService.editOrder(id);
+        if (sandwhichOrder == null) {
+            throw new IllegalArgumentException("Order ID not found");
+        }
+        model.addAttribute("sandwhichOrder", sandwhichOrder);
+        model.addAttribute("sandwhichAddons", SandwhichAddons.values());
+        model.addAttribute("sandwhichBread", SandwhichBread.values());
+        model.addAttribute("sandwhichSpread", SandwhichSpread.values());
+        return "editorder";
     }
 
 }

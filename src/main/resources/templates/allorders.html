@@ -20,6 +20,7 @@
                 <a th:text="${order.sandwhichAddons}"></a> and Spread:
                 <a th:text="${order.sandwhichSpread}"></a> with UUID:
                 <a th:text="${order.getUuid()}"></a>
+                <a class="edit" th:href="@{/order/edit/{id}(id=${order.getUuid()})}">Edit order</a>
             </li>
         </ul>
 
